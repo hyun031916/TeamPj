@@ -26,15 +26,18 @@ import java.net.URL;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button loginbtn = (Button) findViewById(R.id.loginbtn);
-    EditText idText = (EditText) findViewById(R.id.edit1);
-    EditText passwordText = (EditText) findViewById(R.id.edit2);
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Button loginbtn = (Button) findViewById(R.id.loginbtn);
+        EditText idText = (EditText) findViewById(R.id.edit1);
+        EditText passwordText = (EditText) findViewById(R.id.edit2);
 
+        CustomTask task = new CustomTask();
 
+        task.execute("rain483", "1234");
 
 
         TextView registerbtn = (TextView) findViewById(R.id.registerbtn);
@@ -61,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 OutputStreamWriter osw  = new OutputStreamWriter(conn.getOutputStream());
                 sendMsg = "id="+strings[0]+"&pwd="+strings[1];
-                //jsp에 보낼 정보
+                //jsp에 보낼 정보, 보낼 데이터가 여러개일 경우 &로 구분하여 작성
 
                 osw.write(sendMsg);//OutputStreamWriter에 담아 전송하기
                 osw.flush();
@@ -78,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                     receiveMsg = buffer.toString();
                 }else{
                     Log.i("통신 결과 ", conn.getResponseCode()+"에러");
+                    //통신 실패 시 실패 이유 로그 출력
                 }
 
 
@@ -94,17 +98,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    loginbtn.onClickListener btnListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            switch(v.getId()){
-                case R.id.loginbtn: //로그인 버튼 눌렀을 경우
-                    String loginid = idText.getText().toString();
-                    String loginpwd = passwordText.getText().toString();
-                    try{
-                        String result = new CustomTask().execute(loginid, loginpwd, "login", "password");
-                    }
-            }
-        }
-    }
+//    loginbtn.onClickListener btnListener = new View.OnClickListener(){
+//        @Override
+//        public void onClick(View v) {
+//            switch(v.getId()){
+//                case R.id.loginbtn: //로그인 버튼 눌렀을 경우
+//                    String loginid = idText.getText().toString();
+//                    String loginpwd = passwordText.getText().toString();
+//                    try{
+//                        String result = new CustomTask().execute(loginid, loginpwd, "login", "password");
+//                    }
+//            }
+//        }
+//    }
 }

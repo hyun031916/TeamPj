@@ -35,21 +35,21 @@ public class LoginActivity extends AppCompatActivity {
         EditText idText = (EditText) findViewById(R.id.edit1);
         EditText passwordText = (EditText) findViewById(R.id.edit2);
 
-        loginbtn.setOnClickListener(new View.OnClickListener(){
+        loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
                     String result;
                     CustomTask task = new CustomTask();
                     result = task.execute("rain483", "1234").get();
+
                     Log.i("리턴 값", result);
-                }catch(Exception e){
+                    System.out.println("버튼 눌림");
+                }catch(Exception e) {
 
                 }
             }
         });
-
-
 
         TextView registerbtn = (TextView) findViewById(R.id.registerbtn);
 

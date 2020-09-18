@@ -35,9 +35,20 @@ public class LoginActivity extends AppCompatActivity {
         EditText idText = (EditText) findViewById(R.id.edit1);
         EditText passwordText = (EditText) findViewById(R.id.edit2);
 
-        CustomTask task = new CustomTask();
+        loginbtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                try{
+                    String result;
+                    CustomTask task = new CustomTask();
+                    result = task.execute("rain483", "1234").get();
+                    Log.i("리턴 값", result);
+                }catch(Exception e){
 
-        task.execute("rain483", "1234");
+                }
+            }
+        });
+
 
 
         TextView registerbtn = (TextView) findViewById(R.id.registerbtn);
@@ -83,12 +94,6 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("통신 결과 ", conn.getResponseCode()+"에러");
                     //통신 실패 시 실패 이유 로그 출력
                 }
-
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {

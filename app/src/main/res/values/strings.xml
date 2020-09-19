@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">PjManagement</string>
-    <string name="WelcomeMessage">WelcomeMessage</string>
-    <string name="btn1">btn1</string>
+<!--    <string name="WelcomeMessage">WelcomeMessage</string>-->
+<!--    <string name="btn1">btn1</string>-->
 </resources>

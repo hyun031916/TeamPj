@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        TextView idText = (TextView) findViewById(R.id.idText);
-//        TextView passwordText = (TextView) findViewById(R.id.passwordText);
         TextView welcome = (TextView) findViewById(R.id.WelcomeMessage);
 
         Button btn1 = (Button) findViewById(R.id.btn1);
@@ -54,12 +52,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-//        EditText edit1 = (EditText) findViewById(R.id.edit1);
-//        EditText edit2 = (EditText) findViewById(R.id.edit2);
-//        Button loginbtn = (Button) findViewById(R.id.loginbtn);
-//        TextView registerbtn = (TextView) findViewById(R.id.registerbtn);
     }
 
     class CustomTask extends AsyncTask<String, Void, String> {
@@ -69,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try{
                 String str;
-                URL url = new URL("http://localhost:8090/teamProject/login.jsp");
+                URL url = new URL("http://172.30.118.123/teamProject/login.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");

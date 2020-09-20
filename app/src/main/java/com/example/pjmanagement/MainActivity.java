@@ -1,6 +1,5 @@
 package com.example.pjmanagement;
 
-<<<<<<< HEAD
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static android.icu.number.NumberFormatter.with;
-=======
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -34,7 +32,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
->>>>>>> 2bde45c6a6e03a06f025ee7be55bf74e53ac8e0b
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,11 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
 //        TextView idText = (TextView) findViewById(R.id.idText);
 //        TextView passwordText = (TextView) findViewById(R.id.passwordText);
-<<<<<<< HEAD
+
         TextView WelcomeMessage = (TextView) findViewById(R.id.WelcomeMessage);
-=======
+
         TextView welcome = (TextView) findViewById(R.id.WelcomeMessage);
->>>>>>> 2bde45c6a6e03a06f025ee7be55bf74e53ac8e0b
 
         Button btn1 = (Button) findViewById(R.id.btn1);
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -60,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
-=======
         Button btn2 = (Button) findViewById(R.id.btn2);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,15 +71,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
->>>>>>> 2bde45c6a6e03a06f025ee7be55bf74e53ac8e0b
-
 
 //        EditText edit1 = (EditText) findViewById(R.id.edit1);
 //        EditText edit2 = (EditText) findViewById(R.id.edit2);
 //        Button loginbtn = (Button) findViewById(R.id.loginbtn);
 //        TextView registerbtn = (TextView) findViewById(R.id.registerbtn);
     }
-<<<<<<< HEAD
+
 //    class CustomTask extends AsyncTask<String, Void, String> {
 //        String sendMsg, receiveMsg;
 //
@@ -132,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
 //            return receiveMsg;
 //        }
 //    }
-=======
 
     class CustomTask extends AsyncTask<String, Void, String> {
         String sendMsg, receiveMsg;
@@ -169,5 +160,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
->>>>>>> 2bde45c6a6e03a06f025ee7be55bf74e53ac8e0b
 }

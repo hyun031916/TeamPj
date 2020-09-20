@@ -16,17 +16,12 @@
         android:textColor="@android:color/background_dark"
         android:textSize="20dp"/>
 
-<!--    <ImageView-->
-<!--        android:layout_width="256dp"-->
-<!--        android:layout_height="66dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:src="@drawable/line" />-->
-<!--    <EditText-->
-<!--        android:layout_width="305dp"-->
-<!--        android:layout_height="35dp"-->
-<!--        android:layout_marginLeft="20dp"-->
-<!--        android:layout_marginTop="300dp"-->
-<!--        android:background="@drawable/round_edittext" />-->
+    <EditText
+        android:layout_width="305dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="300dp"
+        android:background="@drawable/round_edittext" />
 
 <!--    <ImageButton-->
 <!--        android:layout_width="80dp"-->

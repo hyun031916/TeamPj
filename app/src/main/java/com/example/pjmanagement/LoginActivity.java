@@ -32,32 +32,47 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Button loginbtn = (Button) findViewById(R.id.loginbtn);
-        EditText idText = (EditText) findViewById(R.id.edit1);
+        final EditText idText = (EditText) findViewById(R.id.edit1);
         EditText passwordText = (EditText) findViewById(R.id.edit2);
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
+                try {
                     String result;
                     CustomTask task = new CustomTask();
                     result = task.execute("rain483", "1234").get();
 
                     Log.i("리턴 값", result);
                     System.out.println("버튼 눌림");
-                }catch(Exception e) {
+                } catch (Exception e) {
 
                 }
+            };
+        });
+
+        TextView register = (TextView) findViewById(R.id.registerbtn);
+
+        register.setOnClickListener(new View.OnClickListener()   {
+            @Override
+            public void onClick (View view) {
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                LoginActivity.this.startActivity(registerIntent);
             }
         });
 
-        TextView registerbtn = (TextView) findViewById(R.id.registerbtn);
+        Button login = (Button) findViewById(R.id.loginbtn);
 
-        registerbtn.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                LoginActivity.this.startActivity(registerIntent);
+                Intent CheckMemberIntent = new Intent(LoginActivity.this, CheckMemberActivity.class);
+                LoginActivity.this.startActivity(CheckMemberIntent);
+
+                final String ID = idText.getText().toString();
+                Intent intent = new Intent(LoginActivity.this, CheckMemberActivity.class);
+                intent.putExtra("ID", ID);
+                startActivity(intent);
             }
         });
     }
@@ -102,7 +117,6 @@ public class LoginActivity extends AppCompatActivity {
             return receiveMsg;
         }
     }
-
 //    loginbtn.onClickListener btnListener = new View.OnClickListener(){
 //        @Override
 //        public void onClick(View v) {
@@ -116,4 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        }
 //    }
+
 }
+
+

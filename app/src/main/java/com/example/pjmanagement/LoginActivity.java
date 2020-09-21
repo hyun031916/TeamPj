@@ -1,10 +1,9 @@
 package com.example.pjmanagement;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,21 +11,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
     EditText userId, userPwd;
     Button loginBtn;
     TextView registerBtn;
@@ -50,13 +44,13 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try{
                 String str;
-                URL url = new URL("http://localhost:8090/teamProject/login.jsp");    //jsp 주소
+                URL url = new URL("http://localhost:8000/team_project/data.jsp");    //jsp 주소
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");  //POST 방식으로 데이터 전송
 
                 OutputStreamWriter osw  = new OutputStreamWriter(conn.getOutputStream());
-                sendMsg = "id="+strings[0]+"&password="+strings[1]+"&type="+strings[2];
+                sendMsg = "id="+strings[0]+"&password="+strings[1];
                 //jsp에 보낼 정보, 보낼 데이터가 여러개일 경우 &로 구분하여 작성
 
                 osw.write(sendMsg);//OutputStreamWriter에 담아 전송하기
@@ -93,10 +87,10 @@ public class LoginActivity extends AppCompatActivity {
                     String loginid = userId.getText().toString();
                     String loginpwd = userPwd.getText().toString();
                     try{
-                        String result = new CustomTask().execute(loginid, loginpwd, "login").get();
+                        String result = new CustomTask().execute(loginid, loginpwd).get();
                         if(result.equals("true")){
                             Toast.makeText(LoginActivity.this, "로그인", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         }else if(result.equals("false")){

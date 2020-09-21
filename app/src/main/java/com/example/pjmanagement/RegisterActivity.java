@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try{
                 String str;
-                URL url = new URL("http://localhost:8000/teamProject/login.jsp");
+                URL url = new URL("http://localhost:8000/team_project/join.jsp");
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
@@ -86,14 +86,16 @@ public class RegisterActivity extends AppCompatActivity {
             String joinname = userName.getText().toString();
 
             try {
-                String result = new CustomTask().execute(joinid, joinpwd, "join").get();
+                String result = new CustomTask().execute(joinid, joinpwd, joinname).get();
                 if (result.equals("id")) {
                     Toast.makeText(RegisterActivity.this, "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT).show();
                     userId.setText("");
                     userPwd.setText("");
+                    userName.setText("");
                 } else if (result.equals("ok")) {
                     userId.setText("");
                     userPwd.setText("");
+                    userName.setText("");
                     Toast.makeText(RegisterActivity.this, "회원가입을 축하합니다.", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {}

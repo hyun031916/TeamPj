@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,43 +24,24 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
-
+    EditText userId, userPwd;
+    Button loginBtn;
+    TextView registerBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Button loginbtn = (Button) findViewById(R.id.loginbtn);
-        EditText idText = (EditText) findViewById(R.id.edit1);
-        EditText passwordText = (EditText) findViewById(R.id.edit2);
+        userId = (EditText) findViewById(R.id.userId);
+        userPwd = (EditText) findViewById(R.id.userPwd);
+        loginBtn = (Button) findViewById(R.id.loginbtn);
+        registerBtn = (TextView) findViewById(R.id.registerbtn);
 
-        loginbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try{
-                    String result;
-                    CustomTask task = new CustomTask();
-                    result = task.execute("rain483", "1234").get();
-
-                    Log.i("리턴 값", result);
-                    System.out.println("버튼 눌림");
-                }catch(Exception e) {
-
-                }
-            }
-        });
-
-        TextView registerbtn = (TextView) findViewById(R.id.registerbtn);
-
-        registerbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                LoginActivity.this.startActivity(registerIntent);
-            }
-        });
+        loginBtn.setOnClickListener(btnListener);
+        registerBtn.setOnClickListener(btnListener);
     }
     class CustomTask extends AsyncTask<String, Void, String> {
         String sendMsg, receiveMsg;
@@ -74,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 conn.setRequestMethod("POST");  //POST 방식으로 데이터 전송
 
                 OutputStreamWriter osw  = new OutputStreamWriter(conn.getOutputStream());
-                sendMsg = "id="+strings[0]+"&pwd="+strings[1];
+                sendMsg = "id="+strings[0]+"&password="+strings[1]+"&type="+strings[2];
                 //jsp에 보낼 정보, 보낼 데이터가 여러개일 경우 &로 구분하여 작성
 
                 osw.write(sendMsg);//OutputStreamWriter에 담아 전송하기
@@ -103,17 +85,41 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-//    loginbtn.onClickListener btnListener = new View.OnClickListener(){
-//        @Override
-//        public void onClick(View v) {
-//            switch(v.getId()){
-//                case R.id.loginbtn: //로그인 버튼 눌렀을 경우
-//                    String loginid = idText.getText().toString();
-//                    String loginpwd = passwordText.getText().toString();
-//                    try{
-//                        String result = new CustomTask().execute(loginid, loginpwd, "login", "password");
-//                    }
-//            }
-//        }
-//    }
+    View.OnClickListener btnListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.loginbtn: //로그인 버튼 눌렀을 경우
+                    String loginid = userId.getText().toString();
+                    String loginpwd = userPwd.getText().toString();
+                    try{
+                        String result = new CustomTask().execute(loginid, loginpwd, "login").get();
+                        if(result.equals("true")){
+                            Toast.makeText(LoginActivity.this, "로그인", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }else if(result.equals("false")){
+                            Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 틀렸음", Toast.LENGTH_SHORT).show();
+                            userId.setText("");
+                            userPwd.setText("");
+                        }else if(result.equals("noId")){
+                            Toast.makeText(LoginActivity.this, "존재하지 않는 아이디", Toast.LENGTH_SHORT).show();
+                            userId.setText("");
+                            userPwd.setText("");
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case R.id.registerbtn:  //회원가입
+                    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+            }
+        }
+    };
 }

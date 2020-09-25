@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        TextView idText = (TextView) findViewById(R.id.idText);
-//        TextView passwordText = (TextView) findViewById(R.id.passwordText);
         TextView welcome = (TextView) findViewById(R.id.WelcomeMessage);
 
         Button btn1 = (Button) findViewById(R.id.btn1);
@@ -43,23 +41,10 @@ public class MainActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    String result;
-                    CustomTask task = new CustomTask();
-                    result = task.execute("rain483", "1234").get();
-                    Log.i("리턴 값", result);
-                }catch(Exception e){
-
-                }
+                Intent intent = new Intent(MainActivity.this, LoginActivity2.class);
+                startActivity(intent);
             }
         });
-
-
-
-//        EditText edit1 = (EditText) findViewById(R.id.edit1);
-//        EditText edit2 = (EditText) findViewById(R.id.edit2);
-//        Button loginbtn = (Button) findViewById(R.id.loginbtn);
-//        TextView registerbtn = (TextView) findViewById(R.id.registerbtn);
     }
 
     class CustomTask extends AsyncTask<String, Void, String> {

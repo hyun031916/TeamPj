@@ -44,7 +44,7 @@ public class LoginActivity extends Activity {
         protected String doInBackground(String... strings) {
             try{
                 String str;
-                URL url = new URL("http://localhost:8000/team_project/data.jsp");    //jsp 주소
+                URL url = new URL("http://10.0.2.2:8000/team_project/data.jsp");    //jsp 주소
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");  //POST 방식으로 데이터 전송
@@ -88,23 +88,21 @@ public class LoginActivity extends Activity {
                     String loginpwd = userPwd.getText().toString();
                     try{
                         String result = new CustomTask().execute(loginid, loginpwd).get();
-                        if(result.equals("true")){
+                        if(result!=null && result.equals("true")){
                             Toast.makeText(LoginActivity.this, "로그인", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
-                        }else if(result.equals("false")){
+                        }else if(result!=null && result.equals("false")){
                             Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 틀렸음", Toast.LENGTH_SHORT).show();
                             userId.setText("");
                             userPwd.setText("");
-                        }else if(result.equals("noId")){
+                        }else if(result !=null && result.equals("noId")){
                             Toast.makeText(LoginActivity.this, "존재하지 않는 아이디", Toast.LENGTH_SHORT).show();
                             userId.setText("");
                             userPwd.setText("");
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
+                    } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
                     break;
@@ -113,6 +111,8 @@ public class LoginActivity extends Activity {
                     startActivity(intent);
                     finish();
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + v.getId());
             }
         }
     };

@@ -42,25 +42,26 @@ public class RegisterActivity extends AppCompatActivity {
 
         register.setOnClickListener(btnListener);
     }
-    class CustomTask extends AsyncTask<String, Void, String>{
+    static class CustomTask extends AsyncTask<String, Void, String>{
         String sendMsg, receiveMsg;
 
         @Override
         protected String doInBackground(String... strings) {
             try{
                 String str;
-                URL url = new URL("http://localhost:8000/team_project/join.jsp");
+                URL url = new URL("http://10.0.2.2:8000/team_project/join.jsp");
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
+
                 OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
-                sendMsg = "id="+strings[0]+"&password="+strings[1]+"&username="+strings[2]+"&type="+strings[3];
+                sendMsg = "userId="+strings[0]+"&userPwd="+strings[1]+"&userName="+strings[2];
                 osw.write(sendMsg);
                 osw.flush();
-                if(conn.getResponseCode()==conn.HTTP_OK){
+                if(conn.getResponseCode()== HttpURLConnection.HTTP_OK){
                     InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
                     BufferedReader reader = new BufferedReader(tmp);
-                    StringBuffer buffer = new StringBuffer();
+                    StringBuilder buffer = new StringBuilder();
                     while((str = reader.readLine())!=null){
                         buffer.append(str);
                     }
@@ -68,10 +69,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }else{
                     Log.i("통신 결과", conn.getResponseCode()+"에러");
                 }
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -98,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
                     userName.setText("");
                     Toast.makeText(RegisterActivity.this, "회원가입을 축하합니다.", Toast.LENGTH_SHORT).show();
                 }
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         }
     };
 }

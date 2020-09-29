@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "269187345279",
+    "firebase_url": "https://pjmanagement-58983.firebaseio.com",
+    "project_id": "pjmanagement-58983",
+    "storage_bucket": "pjmanagement-58983.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269187345279:android:2d46a55d3452015c70084a",
+        "android_client_info": {
+          "package_name": "com.company.PjManagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "269187345279-28ttp8b9mhs6pdtpbr6bpdplr8116dev.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.PjManagement",
+            "certificate_hash": "3e2a966be9b0fb664348b2dd2a383a1d5a31e54a"
+          }
+        },
+        {
+          "client_id": "269187345279-p5jf0u6lar51lnmb5911gltuvldov575.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqmpAiCBqAPrv36qtgGXb9vfni4uCAy8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269187345279-p5jf0u6lar51lnmb5911gltuvldov575.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

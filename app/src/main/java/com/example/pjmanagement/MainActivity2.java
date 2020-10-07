@@ -86,7 +86,7 @@ public class MainActivity2 extends AppCompatActivity {
         //바꾼것도 없고, 처음 접속도 아니고..
         if(!isChanged && !isFirst){
             //ChatActivity로 전환
-            Intent intent= new Intent(MainActivity2.this, ChatActivity.class);
+            Intent intent= new Intent(MainActivity2.this, PlanningActivity.class);
             startActivity(intent);
             finish();
         }else{
@@ -143,7 +143,7 @@ public class MainActivity2 extends AppCompatActivity {
 
                         editor.commit();
                         //저장이 완료되었으니 ChatActivity로 전환
-                        Intent intent=new Intent(MainActivity2.this, ChatActivity.class);
+                        Intent intent=new Intent(MainActivity2.this, PlanningActivity.class);
                         startActivity(intent);
                         finish();
 

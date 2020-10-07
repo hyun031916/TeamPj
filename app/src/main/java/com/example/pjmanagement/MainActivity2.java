@@ -159,6 +159,5 @@ public class MainActivity2 extends AppCompatActivity {
         G.nickName=preferences.getString("nickName", null);
         G.porfileUrl=preferences.getString("profileUrl", null);
 
-
     }
 }

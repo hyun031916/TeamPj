@@ -13,7 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TimeTabeleActivity"></activity>
+        <activity android:name=".MakeProjectActivity" ></activity>
+        <activity android:name=".TimeTableActivity"></activity>
+        <activity android:name=".JoinActivity"/>
+        <activity android:name=".ChatActivity"/>
+        <activity android:name=".PlanningActivity"/>
+        <activity android:name=".CheckMemberActivity"/>
+        <activity android:name=".NewProjectActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,21 +28,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity2" />
-        <activity android:name=".JoinActivity" />
         <activity
             android:name=".MainActivity2"
             android:theme="@style/AppTheme.NoActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatActivity" />
-
+        <activity android:name=".CalendarActivity"/>
         <meta-data
             android:name="com.google.firebase.nl.vision.DEPEDENCIES"
             android:value="face" />
     </application>
-
 </manifest>

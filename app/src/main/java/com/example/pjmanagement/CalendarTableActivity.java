@@ -4,28 +4,30 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.CalendarView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.OrientationHelper;
 
 import com.applikeysolutions.cosmocalendar.utils.SelectionType;
+import com.applikeysolutions.cosmocalendar.view.CalendarView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class CalendarTableActivity extends AppCompatActivity  implements RadioGroup.OnCheckedChangeListener{
+
+public class CalendarTableActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
     private CalendarView calendarView;
-    private Bundle savedInstanceState;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        this.savedInstanceState = savedInstanceState;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_table);
 
@@ -33,13 +35,13 @@ public class CalendarTableActivity extends AppCompatActivity  implements RadioGr
 
         initViews();
     }
+
     private void initViews() {
         calendarView = (CalendarView) findViewById(R.id.calendar_view);
         calendarView.setCalendarOrientation(OrientationHelper.HORIZONTAL);
 
         ((RadioGroup) findViewById(R.id.rg_selection_type)).setOnCheckedChangeListener(this);
     }
-
 
 
     @Override
@@ -60,15 +62,14 @@ public class CalendarTableActivity extends AppCompatActivity  implements RadioGr
             case R.id.show_selections:
                 List<Calendar> days = calendarView.getSelectedDates();
 
-                String result="";
-                for( int i=0; i<days.size(); i++)
-                {
+                String result = "";
+                for (int i = 0; i < days.size(); i++) {
                     Calendar calendar = days.get(i);
                     final int day = calendar.get(Calendar.DAY_OF_MONTH);
                     final int month = calendar.get(Calendar.MONTH);
                     final int year = calendar.get(Calendar.YEAR);
                     String week = new SimpleDateFormat("EE").format(calendar.getTime());
-                    String day_full = year + "년 "+ (month+1)  + "월 " + day + "일 " + week + "요일";
+                    String day_full = year + "년 " + (month + 1) + "월 " + day + "일 " + week + "요일";
                     result += (day_full + "\n");
                 }
                 Toast.makeText(CalendarTableActivity.this, result, Toast.LENGTH_LONG).show();
@@ -80,14 +81,15 @@ public class CalendarTableActivity extends AppCompatActivity  implements RadioGr
     }
 
 
-
-
     private void clearSelectionsMenuClick() {
         calendarView.clearSelections();
 
     }
+
+
     @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
+    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+        clearSelectionsMenuClick();
         switch (checkedId) {
 
             case R.id.rb_single:

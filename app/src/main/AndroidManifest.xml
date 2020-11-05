@@ -13,10 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CalendarTableActivity"></activity>
+        <activity
+            android:name=".MainActivity3"
+            android:label="@string/title_activity_main3"></activity>
+        <activity android:name=".TapActivity" />
+        <activity android:name=".CalendarTableActivity" />
         <activity android:name=".MakeProjectActivity" />
         <activity android:name=".TimeTableActivity" />
-        <activity android:name=".JoinActivity" />
+        <activity
+            android:name=".JoinActivity"
+            android:theme="@style/AppTheme.NoActionbar" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".PlanningActivity" />
         <activity android:name=".CheckMemberActivity" />
@@ -28,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity2" />
+        <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity2"
             android:theme="@style/AppTheme.NoActionbar">

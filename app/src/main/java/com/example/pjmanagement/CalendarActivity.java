@@ -159,5 +159,6 @@ public class CalendarActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+        onBackPressed();
     }
 }

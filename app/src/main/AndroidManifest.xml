@@ -45,7 +45,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".CalendarActivity" />
-
         <meta-data
             android:name="com.google.firebase.nl.vision.DEPEDENCIES"
             android:value="face" />

@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = (Button) findViewById(R.id.loginbtn);
         userEmail = (EditText) findViewById(R.id.userId);
         userPwd = (EditText) findViewById(R.id.userPwd);
-        firebaseAuth = firebaseAuth.getInstance();//firebaseAuth의 인스턴스를 가져옴
+        firebaseAuth = FirebaseAuth.getInstance();//firebaseAuth의 인스턴스를 가져옴
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

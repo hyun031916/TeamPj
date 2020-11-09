@@ -61,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
                 String email = userEmail.getText().toString().trim();
                 String pwd = userPwd.getText().toString().trim();
                 //String형 변수 email.pwd(edittext에서 받오는 값)으로 로그인하는것
+                if(email.isEmpty() || email.equals("") || pwd.isEmpty() || pwd.equals("")){
+                    Toast.makeText(LoginActivity.this, "입력해주세요", Toast.LENGTH_SHORT).show();
+                }
                 mAuth.signInWithEmailAndPassword(email, pwd)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -72,8 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "로그인 오류", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
-
+                });
             }
         });
 

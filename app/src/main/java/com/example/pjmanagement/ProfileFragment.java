@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,11 +42,14 @@ import java.util.Hashtable;
 
 public class ProfileFragment extends Fragment {
 
+    String TAG = getClass().getSimpleName();
     private ImageView ivProfile;
+    private Button btnLogout;
     private StorageReference mStorageRef;
     String stUid;
     String stEmail;
     Bitmap bitmap;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +61,26 @@ public class ProfileFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("email", Context.MODE_PRIVATE);
         stUid = sharedPreferences.getString("uid", "");
         stEmail = sharedPreferences.getString("email", "");
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users");
+        myRef.child("users").child(stUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue().toString();
+                String stPhoto = dataSnapshot.child("photo").getValue().toString();
+
+                Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
         if (ContextCompat.checkSelfPermission(
                 getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
@@ -68,22 +94,33 @@ public class ProfileFragment extends Fragment {
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
-
-            ivProfile = (ImageView) v.findViewById(R.id.iv_profile);
-            ivProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i, 1);
-
-                }
-            });
         }
+
+        ivProfile = (ImageView) v.findViewById(R.id.iv_profile);
+        ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, 1);
+
+            }
+        });
+
+        btnLogout = (Button) v.findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                getActivity().finish();
+            }
+        });
+
         return v;
     }
 
     public void uploadImage() {
-        StorageReference mountainsRef = mStorageRef.child("users").child(stUid + ".jpg");
+        StorageReference mountainsRef;
+        mountainsRef = mStorageRef.child("users").child(stUid + ".jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -99,7 +136,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                Task<Uri> downloadUrl = mountainsRef.getDownloadUrl();
                 String photoUri =  String.valueOf(downloadUrl);
                 Log.d("url", photoUri);
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -132,11 +169,13 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Uri image = data.getData();
         try{
-            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), image);
-            ivProfile.setImageBitmap(bitmap);
-            uploadImage();
+            if(data != null) {
+                Uri image = data.getData();
+                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), image);
+                ivProfile.setImageBitmap(bitmap);
+                uploadImage();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

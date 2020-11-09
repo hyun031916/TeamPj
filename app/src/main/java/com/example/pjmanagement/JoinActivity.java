@@ -3,6 +3,7 @@ package com.example.pjmanagement;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,12 +24,12 @@ import java.util.HashMap;
 
 public class JoinActivity extends AppCompatActivity {
 
-    private EditText userEmail, userPwd, checkPwd,userId;
+    private EditText userEmail, userPwd, checkPwd, userId;
     private Button joinBtn;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
-    
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +46,9 @@ public class JoinActivity extends AppCompatActivity {
         joinBtn = (Button) findViewById(R.id.joinBtn);
 
         //파이어베이스 접근 설정
-        firebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = mDatabase.getReference();
 
         //가입 버튼 클릭 리스너 -> 파이어베이스에 데이터 저장하기
         joinBtn.setOnClickListener(new View.OnClickListener() {
@@ -66,14 +69,14 @@ public class JoinActivity extends AppCompatActivity {
                     mDialog.show();
 
                     //파이어베이스에 신규계정 등록하기
-                    firebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(JoinActivity.this, new OnCompleteListener<AuthResult>() {
+                    mAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(JoinActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             //가입 성공시
                             if (task.isSuccessful()) {
                                 mDialog.dismiss();
 
-                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                FirebaseUser user = mAuth.getCurrentUser();
                                 String email = user.getEmail();
                                 String uid = user.getUid();
                                 String name = userId.getText().toString().trim();
@@ -103,16 +106,14 @@ public class JoinActivity extends AppCompatActivity {
                         }
                     });
                     //비밀번호 오류시
+                } else if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pwd) || TextUtils.isEmpty(check_pwd) || TextUtils.isEmpty(id)) {
+                    Toast.makeText(JoinActivity.this, "정보를 바르게 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
                     Toast.makeText(JoinActivity.this, "비밀번호가 틀렸습니다. 다시 입력해주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
         });
-    }
-    
-    public boolean onSupportNavigateUp(){
-        onBackPressed();    //뒤로 가기 버튼 눌렀을 시
-        return super.onSupportNavigateUp();//뒤로가기 버튼
     }
 }

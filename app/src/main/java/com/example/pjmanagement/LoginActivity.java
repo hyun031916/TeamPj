@@ -1,7 +1,9 @@
 package com.example.pjmanagement;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,13 +17,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    String TAG="MainActivity";
     private EditText userEmail, userPwd;
     private Button loginBtn;
     private TextView registerBtn;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +36,24 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = (Button) findViewById(R.id.loginbtn);
         userEmail = (EditText) findViewById(R.id.userId);
         userPwd = (EditText) findViewById(R.id.userPwd);
-        firebaseAuth = FirebaseAuth.getInstance();//firebaseAuth의 인스턴스를 가져옴
+        mAuth = FirebaseAuth.getInstance();//firebaseAuth의 인스턴스를 가져옴
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user!=null){
+                    Log.d(TAG, "onAuthStateChanged:signed_in"+user.getUid());
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("email", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email", user.getEmail());
+                    editor.apply();
+                }else{
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = userEmail.getText().toString().trim();
                 String pwd = userPwd.getText().toString().trim();
                 //String형 변수 email.pwd(edittext에서 받오는 값)으로 로그인하는것
-                firebaseAuth.signInWithEmailAndPassword(email, pwd)
+                mAuth.signInWithEmailAndPassword(email, pwd)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
